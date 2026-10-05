@@ -1,0 +1,643 @@
+@charset "utf-8";
+
+/* IMAGE CREDITS
+   img/card-charizard.jpg, img/card-luffy.jpg, img/card-umbreon.jpg
+   Original abstract card artwork produced by the author for this project using
+   Python and the Pillow imaging library. No third-party or downloaded imagery
+   is used anywhere in this prototype, so there is no external source to credit.
+   The artwork is deliberately non-representational: it stands in for a
+   photograph of a graded card without reproducing any publisher's card art. */
+
+/* ==========================================================================
+   CardSplit - main stylesheet
+   Shared collectible card position tracking for small partnerships.
+
+   Visual direction: the graded "slab" (white label band, heavy grade numeral)
+   crossed with a brokerage position statement (ruled tables, right-aligned
+   tabular figures). Deliberately not a card-and-shadow dashboard: money that
+   belongs to several people should read as a ledger, not as decoration.
+
+   Contents
+     1. Design tokens
+     2. Base elements and inheritance
+     3. Layout scaffolding
+     4. Site header, navigation, footer
+     5. Panels and page headers
+     6. Data tables
+     7. Pipeline track
+     8. Forms
+     9. Buttons, badges, utilities
+    10. Responsive (fluid + media queries + flexible media)
+   ========================================================================== */
+
+
+/* 1. Design tokens ======================================================== */
+
+:root {
+  /* Palette. Graphite ink on paper, one authentication blue for interaction,
+     and separate gain/loss hues reserved strictly for monetary values. */
+  --ink:        #1c1f26;
+  --ink-soft:   #565f6b;
+  --ink-faint:  #7d8792;
+  --paper:      #ffffff;
+  --wash:       #edf0f3;
+  --wash-deep:  #e1e6eb;
+  --rule:       #d3d9df;
+  --accent:     #23479b;
+  --accent-dim: #eaeff9;
+  --gain:       #136b4a;
+  --loss:       #9e3328;
+  --flag:       #8a5a12;
+  --flag-bg:    #fdf4e3;
+
+  /* Type scale, 1.25 ratio off a 16px base. */
+  --step--1: 0.8125rem;
+  --step-0:  1rem;
+  --step-1:  1.1875rem;
+  --step-2:  1.4375rem;
+  --step-3:  1.875rem;
+  --step-4:  2.75rem;
+
+  --font-display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --font-body:    "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+
+  /* Spacing, 4px base. */
+  --s1: 0.25rem;
+  --s2: 0.5rem;
+  --s3: 0.75rem;
+  --s4: 1rem;
+  --s5: 1.5rem;
+  --s6: 2rem;
+  --s7: 3rem;
+
+  --radius: 2px;
+  --shell:  76rem;
+}
+
+
+/* 2. Base elements and inheritance ======================================== */
+
+/* Font family, colour and line-height are set once on the root and inherited
+   everywhere below, rather than restated per component. */
+html {
+  box-sizing: border-box;
+  font-size: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+*, *::before, *::after { box-sizing: inherit; }
+
+body {
+  margin: 0;
+  background: var(--wash);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: var(--step-0);
+  line-height: 1.55;
+}
+
+/* Form controls do not inherit type by default, so opt them in. */
+input, select, textarea, button { font: inherit; color: inherit; }
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  line-height: 1.15;
+  margin: 0 0 var(--s3);
+  letter-spacing: -0.01em;
+}
+h1 { font-size: var(--step-3); font-weight: 700; }
+h2 { font-size: var(--step-2); font-weight: 600; }
+h3 { font-size: var(--step-1); font-weight: 600; }
+h4 { font-size: var(--step-0); font-weight: 600; }
+
+p  { margin: 0 0 var(--s4); max-width: 68ch; }
+ul { margin: 0 0 var(--s4); padding-left: var(--s5); }
+
+a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+a:hover { text-decoration-thickness: 2px; }
+
+/* A single visible focus treatment for every interactive element. */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+img { max-width: 100%; height: auto; display: block; }   /* flexible media */
+
+
+/* 3. Layout scaffolding =================================================== */
+
+/* Fluid: the shell is a percentage of the viewport up to a maximum, so the
+   layout reflows continuously rather than snapping between fixed widths. */
+.shell {
+  width: 92%;
+  max-width: var(--shell);
+  margin-inline: auto;
+}
+
+.page { padding-block: var(--s6) var(--s7); }
+
+.stack > * + * { margin-top: var(--s5); }
+
+/* Two-column split used on the detail pages. minmax() keeps the sidebar
+   readable while the main column absorbs the remaining space. */
+.split {
+  display: grid;
+  grid-template-columns: minmax(15rem, 22rem) 1fr;
+  gap: var(--s5);
+  align-items: start;
+}
+
+.row-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--s5); }
+
+/* auto-fit + minmax lets the summary figures wrap from four across to two to
+   one without a media query doing the work. */
+.figures {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+  gap: var(--s4);
+}
+
+
+/* 4. Site header, navigation, footer ====================================== */
+
+.masthead {
+  background: var(--paper);
+  border-bottom: 1px solid var(--rule);
+}
+
+.masthead__bar {
+  display: flex;
+  align-items: center;
+  gap: var(--s4);
+  padding-block: var(--s3);
+  flex-wrap: wrap;
+}
+
+.wordmark {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--step-1);
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  text-decoration: none;
+  white-space: nowrap;
+}
+/* The slab label: a white band under a rule, echoing a graded case. */
+.wordmark span { color: var(--accent); }
+
+.search { display: flex; flex: 1 1 16rem; min-width: 0; }
+.search input {
+  flex: 1 1 auto;
+  min-width: 0;
+  border: 1px solid var(--rule);
+  border-right: 0;
+  border-radius: var(--radius) 0 0 var(--radius);
+  padding: var(--s2) var(--s3);
+}
+.search button { border-radius: 0 var(--radius) var(--radius) 0; }
+
+.nav { border-bottom: 1px solid var(--rule); background: var(--paper); }
+.nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s5);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.nav a {
+  display: block;
+  padding: var(--s3) 0;
+  color: var(--ink-soft);
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+  font-weight: 500;
+}
+.nav a:hover { color: var(--ink); }
+/* Chained selector: only the current item inside the nav is marked. */
+.nav a[aria-current="page"] {
+  color: var(--ink);
+  border-bottom-color: var(--accent);
+}
+
+.sitefoot {
+  border-top: 1px solid var(--rule);
+  background: var(--paper);
+  color: var(--ink-soft);
+  font-size: var(--step--1);
+  padding-block: var(--s5);
+}
+.sitefoot .shell { display: flex; flex-wrap: wrap; gap: var(--s4); justify-content: space-between; }
+.sitefoot ul { display: flex; gap: var(--s4); list-style: none; margin: 0; padding: 0; }
+
+
+/* 5. Panels and page headers ============================================== */
+
+.panel {
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+}
+.panel__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--s3);
+  padding: var(--s3) var(--s4);
+  border-bottom: 1px solid var(--rule);
+  background: var(--wash);
+}
+.panel__head h2, .panel__head h3 { margin: 0; font-size: var(--step-0); }
+.panel__body { padding: var(--s4); }
+/* Override: tables sit flush inside a panel, so drop the body padding. */
+.panel__body--flush { padding: 0; }
+
+.pagehead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s4);
+  margin-bottom: var(--s5);
+}
+.pagehead h1 { margin: 0; }
+.pagehead p  { margin: var(--s1) 0 0; color: var(--ink-soft); }
+
+.crumbs {
+  font-size: var(--step--1);
+  color: var(--ink-soft);
+  margin-bottom: var(--s3);
+}
+.crumbs ol { display: flex; flex-wrap: wrap; gap: var(--s2); list-style: none; margin: 0; padding: 0; }
+.crumbs li + li::before { content: "/"; margin-right: var(--s2); color: var(--ink-faint); }
+
+/* Summary figure. The label is small and quiet; the number carries the weight. */
+.figure {
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  padding: var(--s4);
+}
+.figure dt { font-size: var(--step--1); color: var(--ink-soft); margin-bottom: var(--s1); }
+.figure dd {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--step-2);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+/* The one loud moment in the whole interface: realised profit on a closed
+   position. Everything around it is deliberately quiet so this reads first. */
+.settled {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s5);
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  border-left: 4px solid var(--gain);
+  border-radius: var(--radius);
+  padding: var(--s5);
+}
+.settled__value {
+  font-family: var(--font-display);
+  font-size: var(--step-4);
+  font-weight: 700;
+  line-height: 1;
+  color: var(--gain);
+  font-variant-numeric: tabular-nums;
+}
+.settled__note { font-size: var(--step--1); color: var(--ink-soft); margin: var(--s1) 0 0; }
+
+
+/* 6. Data tables ========================================================== */
+
+.table-wrap { overflow-x: auto; }              /* small screens scroll the table, not the page */
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--step--1);
+}
+caption {
+  text-align: left;
+  padding: var(--s3) var(--s4);
+  color: var(--ink-soft);
+  font-size: var(--step--1);
+}
+th, td {
+  padding: var(--s3) var(--s4);
+  border-bottom: 1px solid var(--rule);
+  text-align: left;
+  vertical-align: middle;
+}
+thead th {
+  background: var(--wash);
+  font-weight: 600;
+  color: var(--ink-soft);
+  white-space: nowrap;
+}
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:hover { background: var(--accent-dim); }
+
+/* Money and counts are right-aligned and tabular so digits line up down the
+   column, which is the whole point of a position statement. */
+.num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.num--gain { color: var(--gain); font-weight: 600; }
+.num--loss { color: var(--loss); font-weight: 600; }
+
+.thumb {
+  width: 34px;
+  border-radius: var(--radius);
+  border: 1px solid var(--rule);
+}
+.cardcell { display: flex; align-items: center; gap: var(--s3); }
+.cardcell strong { font-weight: 600; }
+.cardcell span { display: block; color: var(--ink-soft); font-size: var(--step--1); }
+
+
+/* 7. Pipeline track ======================================================= */
+
+/* A position moves Raw > At Grader > Graded > Listed > Sold. The track is a
+   sequence, so numbering and connectors genuinely encode the content here. */
+.track { display: flex; flex-wrap: wrap; gap: var(--s2); list-style: none; margin: 0; padding: 0; }
+.track li {
+  flex: 1 1 7rem;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  padding: var(--s3);
+  background: var(--paper);
+  font-size: var(--step--1);
+  color: var(--ink-faint);
+  text-align: center;
+}
+.track .step-num {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--step-1);
+  color: inherit;
+}
+/* Chained state classes override the resting style above. */
+.track .is-done    { background: var(--wash); color: var(--ink-soft); border-color: var(--wash-deep); }
+.track .is-current { background: var(--accent); color: var(--paper); border-color: var(--accent); }
+
+.track--closed .is-done { border-color: var(--gain); color: var(--gain); }
+
+
+/* 8. Forms ================================================================ */
+
+.field { margin-bottom: var(--s4); }
+.field label { display: block; font-weight: 600; font-size: var(--step--1); margin-bottom: var(--s1); }
+.field .hint { display: block; color: var(--ink-soft); font-size: var(--step--1); margin-top: var(--s1); }
+
+input[type="text"], input[type="search"], input[type="number"],
+input[type="date"], select, textarea {
+  width: 100%;
+  padding: var(--s2) var(--s3);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  background: var(--paper);
+}
+textarea { min-height: 6rem; resize: vertical; }
+
+.req { color: var(--loss); }
+
+.fieldrow { display: grid; grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr)); gap: var(--s4); }
+
+fieldset { border: 1px solid var(--rule); border-radius: var(--radius); padding: var(--s4); margin: 0 0 var(--s5); }
+legend { font-family: var(--font-display); font-weight: 600; padding-inline: var(--s2); }
+
+.check { display: flex; align-items: flex-start; gap: var(--s2); margin-bottom: var(--s2); }
+.check input { margin-top: 0.3rem; }
+.check label { font-weight: 400; margin: 0; }
+
+.formactions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s3);
+  justify-content: flex-end;
+  padding-top: var(--s4);
+  border-top: 1px solid var(--rule);
+}
+
+.tally {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--s3);
+  background: var(--wash);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  padding: var(--s3) var(--s4);
+  font-size: var(--step--1);
+  font-weight: 600;
+}
+
+
+/* 9. Buttons, badges, utilities =========================================== */
+
+.btn {
+  display: inline-block;
+  padding: var(--s2) var(--s4);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  background: var(--paper);
+  color: var(--ink);
+  font-size: var(--step--1);
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.btn:hover { background: var(--wash); }
+/* Override for the single primary action allowed per view. */
+.btn--primary { background: var(--accent); border-color: var(--accent); color: var(--paper); }
+.btn--primary:hover { background: #1b3878; }
+.btn--small { padding: var(--s1) var(--s3); }
+
+.badge {
+  display: inline-block;
+  padding: 0.1rem var(--s2);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  background: var(--wash);
+  font-size: var(--step--1);
+  font-weight: 600;
+  color: var(--ink-soft);
+  white-space: nowrap;
+}
+.badge--grade { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+.badge--flag  { background: var(--flag-bg); border-color: #e8d4a8; color: var(--flag); }
+
+.notice {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s3);
+  background: var(--flag-bg);
+  border: 1px solid #e8d4a8;
+  border-left: 4px solid var(--flag);
+  border-radius: var(--radius);
+  padding: var(--s3) var(--s4);
+  color: var(--flag);
+  font-size: var(--step--1);
+}
+.notice p { margin: 0; color: inherit; }
+
+.queue { list-style: none; margin: 0; padding: 0; }
+.queue li { border-bottom: 1px solid var(--rule); }
+.queue li:last-child { border-bottom: 0; }
+.queue a {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s3);
+  padding: var(--s3) var(--s4);
+  color: var(--ink);
+  text-decoration: none;
+}
+.queue a:hover { background: var(--accent-dim); }
+.queue a:hover .queue__label { text-decoration: underline; }
+
+.meta { color: var(--ink-soft); font-size: var(--step--1); }
+
+/* Utility overrides used in place of inline style attributes. */
+.flush  { margin: 0; }
+.fill-w { width: 100%; }
+
+/* Definition list used for read-only record fields. */
+.record { margin: 0; }
+.record div {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--s4);
+  padding: var(--s2) 0;
+  border-bottom: 1px solid var(--rule);
+}
+.record div:last-child { border-bottom: 0; }
+.record dt { color: var(--ink-soft); font-size: var(--step--1); }
+.record dd { margin: 0; font-weight: 500; font-variant-numeric: tabular-nums; text-align: right; }
+.record .total { font-weight: 700; }
+
+.thread { list-style: none; margin: 0; padding: 0; }
+.thread li { padding-bottom: var(--s4); margin-bottom: var(--s4); border-bottom: 1px solid var(--rule); }
+.thread li:last-child { border-bottom: 0; }
+.thread p { margin: var(--s1) 0 0; }
+
+/* Available to screen readers, removed from the visual layout. */
+.visually-hidden {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  background: var(--ink);
+  color: var(--paper);
+  padding: var(--s2) var(--s4);
+  z-index: 10;
+}
+.skip-link:focus { left: var(--s4); top: var(--s2); }
+
+
+/* 9b. Interaction states ================================================== */
+
+/* Applied by main.js when a position's stage is advanced, so a row the user
+   has just moved is distinguishable from the rest at a glance. */
+.badge--moved { background: var(--accent-dim); border-color: var(--accent); color: var(--accent); }
+
+/* An out-of-range share input. Set on the field wrapper, not the input, so the
+   label is included in the treatment. */
+.is-invalid input { border-color: var(--loss); }
+.is-invalid label { color: var(--loss); }
+
+/* The ownership tally when the shares do not add up to 100 percent. */
+.tally--error { background: var(--flag-bg); border-color: #e8d4a8; color: var(--flag); }
+
+/* Inserted after the tally by main.js, and removed again once the split
+   balances. Never present in the served HTML. */
+.split-error {
+  margin: var(--s2) 0 0;
+  padding: var(--s2) var(--s3);
+  border-left: 3px solid var(--loss);
+  background: #fdf1ef;
+  color: var(--loss);
+  font-size: var(--step--1);
+  font-weight: 600;
+}
+
+/* A disabled control should read as unavailable rather than merely quiet. */
+.btn:disabled,
+button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* Rows written into the stage log by main.js reuse the queue list, but carry
+   no link, so they need their own padding. */
+#stage-log-list li > span {
+  display: block;
+  padding: var(--s3) 0;
+  border-bottom: 1px solid var(--rule);
+}
+#stage-log-list li:last-child > span { border-bottom: 0; }
+
+
+/* 10. Responsive ========================================================== */
+
+/* Tablet. The two-column split collapses before the sidebar gets too narrow
+   to hold a card image at a useful size. */
+@media (max-width: 60rem) {
+  .split, .row-2 { grid-template-columns: 1fr; }
+}
+
+/* Mobile, below the 768px breakpoint named in the brief. */
+@media (max-width: 48rem) {
+  :root {
+    --step-3: 1.5rem;
+    --step-4: 2.125rem;
+    --s6: 1.5rem;
+    --s7: 2rem;
+  }
+  .shell { width: 94%; }
+  .masthead__bar { gap: var(--s3); }
+  .search { order: 3; flex-basis: 100%; }
+  .nav ul { gap: var(--s4); overflow-x: auto; flex-wrap: nowrap; }
+  .nav a { white-space: nowrap; }
+  .pagehead { align-items: flex-start; }
+  .pagehead .btn { width: 100%; text-align: center; }
+  .track li { flex-basis: calc(50% - var(--s2)); }
+  .settled { flex-direction: column; align-items: flex-start; gap: var(--s3); }
+  .formactions .btn { flex: 1 1 auto; text-align: center; }
+  th, td { padding: var(--s2) var(--s3); }
+
+  /* On a phone the ledger drops to the columns that carry the decision, and
+     switches to fixed layout so the remaining cells wrap inside the viewport
+     instead of forcing the page to scroll sideways. Full detail is one tap
+     away on the position record. */
+  table { table-layout: fixed; width: 100%; }
+  .col-optional, .col-compact { display: none; }
+  table th:first-child, table td:first-child { width: 44%; }
+  .cardcell img { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}

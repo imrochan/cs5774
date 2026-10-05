@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Charizard VMAX 074/189, settled | CardSplit</title>
+  <meta name="description" content="A closed position: realised profit, sale breakdown net of fees, and the payout owed to each partner.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700&amp;family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="styles.css">
+  <!-- Image credits: all card artwork in img/ is original work produced by the
+       author for this project. No downloaded or third-party images are used. -->
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<header class="masthead">
+  <div class="shell masthead__bar">
+    <a class="wordmark" href="index.html">Card<span>Split</span></a>
+    <!-- Simulated search. GET so the phrase arrives in the query string, where
+         search.html can read it with JavaScript. -->
+    <form class="search" action="search.html" method="get" role="search">
+      <label class="visually-hidden" for="site-search">Search positions</label>
+      <input type="search" id="site-search" name="q" placeholder="Search positions, try charizard">
+      <button class="btn" type="submit">Search</button>
+    </form>
+    <a class="btn btn--small" href="index.html">Rochan</a>
+  </div>
+</header>
+
+<nav class="nav" aria-label="Primary">
+  <ul class="shell">
+    <li><a href="index.html">Dashboard</a></li>
+    <li><a href="list.html">Positions</a></li>
+    <li><a href="add.html">Add position</a></li>
+    <li><a href="detail.html">Partners</a></li>
+    <li><a href="detail-sold.html" aria-current="page">Settlements</a></li>
+  </ul>
+</nav>
+
+<main id="main" class="page">
+  <div class="shell stack">
+
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <ol>
+        <li><a href="index.html">Dashboard</a></li>
+        <li><a href="list.html">Positions</a></li>
+        <li>Charizard VMAX 074/189, settled</li>
+      </ol>
+    </nav>
+
+    <!-- Same page header pattern as detail.html. The peer evaluation flagged
+         that the Project 1 version of this banner looked like a different site. -->
+    <div class="pagehead">
+      <div>
+        <h1>Charizard VMAX 074/189</h1>
+        <p>Held 78 days. Bought 12 July, sold 28 September.
+           <span class="badge badge--grade">PSA 10</span>
+           <span class="badge">Settled</span></p>
+      </div>
+      <a class="btn" href="list.html">Back to positions</a>
+    </div>
+
+    <!-- The one loud element in the interface. A closed position is the only
+         moment where a single number is the whole answer. -->
+    <section class="settled" aria-labelledby="realised">
+      <div>
+        <h2 id="realised">Realised profit</h2>
+        <p class="settled__note">33.0% return on a $353.50 cost basis, after fees and shipping.</p>
+      </div>
+      <p class="settled__value">+$116.50</p>
+    </section>
+
+    <section class="panel" aria-labelledby="stage">
+      <div class="panel__head">
+        <h2 id="stage">Pipeline</h2>
+        <span class="meta">Complete</span>
+      </div>
+      <div class="panel__body">
+        <ol class="track track--closed">
+          <li class="is-done"><span class="step-num">1</span> Raw</li>
+          <li class="is-done"><span class="step-num">2</span> At grader</li>
+          <li class="is-done"><span class="step-num">3</span> Graded</li>
+          <li class="is-done"><span class="step-num">4</span> Listed</li>
+          <li class="is-done"><span class="step-num">5</span> Sold</li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- Grid children stretch, so these two panels match height. The peer
+         evaluation asked for exactly this on the Project 1 version. -->
+    <div class="row-2">
+
+      <section class="panel" aria-labelledby="sale">
+        <div class="panel__head"><h2 id="sale">The sale</h2></div>
+        <div class="panel__body">
+          <dl class="record">
+            <div><dt>Sold on</dt><dd>eBay</dd></div>
+            <div><dt>Sale date</dt><dd>28 September 2026</dd></div>
+            <div><dt>Gross price</dt><dd>$540.00</dd></div>
+            <div><dt>Platform fees</dt><dd class="num--loss">-$70.00</dd></div>
+            <div><dt>Shipping</dt><dd class="num--loss">-$18.00</dd></div>
+            <div><dt class="total">Net proceeds</dt><dd class="total">$452.00</dd></div>
+            <div><dt>Less cost basis</dt><dd class="num--loss">-$335.50</dd></div>
+            <div><dt class="total">Realised profit</dt><dd class="total num--gain">+$116.50</dd></div>
+          </dl>
+        </div>
+      </section>
+
+      <section class="panel" aria-labelledby="payouts">
+        <div class="panel__head">
+          <h2 id="payouts">Payouts</h2>
+          <span class="badge badge--flag">1 outstanding</span>
+        </div>
+        <div class="panel__body panel__body--flush">
+          <div class="table-wrap">
+            <table>
+              <caption>Each partner's share of the $452.00 net proceeds.</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Partner</th>
+                  <th scope="col" class="num">Share</th>
+                  <th scope="col" class="num">Owed</th>
+                  <th scope="col">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">Rochan</th>
+                  <td class="num">50%</td>
+                  <td class="num">$226.00</td>
+                  <td>Paid 29 Sep</td>
+                </tr>
+                <tr>
+                  <th scope="row">Haarith</th>
+                  <td class="num">30%</td>
+                  <td class="num">$135.60</td>
+                  <td>Paid 29 Sep</td>
+                </tr>
+                <tr>
+                  <th scope="row">Rida</th>
+                  <td class="num">20%</td>
+                  <td class="num">$90.40</td>
+                  <td><a class="btn btn--small" href="detail-sold.html">Mark paid</a></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- Archived record. Everything the active page shows live is frozen here. -->
+    <section class="panel" aria-labelledby="record">
+      <div class="panel__head">
+        <h2 id="record">The record</h2>
+        <span class="meta">Kept for tax and for the next argument about splits</span>
+      </div>
+      <div class="panel__body">
+        <div class="split">
+          <img src="img/card-charizard.jpg"
+               alt="The Charizard VMAX card as photographed before grading, showing the raw condition it was bought in.">
+          <div>
+            <dl class="record">
+              <div><dt>Set</dt><dd>SWSH Darkness Ablaze</dd></div>
+              <div><dt>Number</dt><dd>074/189</dd></div>
+              <div><dt>Final grade</dt><dd>PSA 10</dd></div>
+              <div><dt>Submission</dt><dd>88213704</dd></div>
+              <div><dt>Returned</dt><dd>19 September 2026</dd></div>
+              <div><dt>Discussion</dt><dd>3 comments, closed</dd></div>
+            </dl>
+            <p class="meta">Rida asked for her share to be confirmed in writing before the next sale.
+               That is now the default on new positions.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Settlement form for the one payout still outstanding. -->
+    <section class="panel" aria-labelledby="settle">
+      <div class="panel__head"><h2 id="settle">Close this out</h2></div>
+      <div class="panel__body">
+        <form action="detail-sold.html" method="post">
+          <div class="fieldrow">
+            <div class="field">
+              <label for="paid-on">Date you paid Rida</label>
+              <input type="date" id="paid-on" name="paid-on" value="2026-09-28">
+            </div>
+            <div class="field">
+              <label for="method">How you paid</label>
+              <select id="method" name="method">
+                <option value="venmo" selected>Venmo</option>
+                <option value="zelle">Zelle</option>
+                <option value="cash">Cash</option>
+              </select>
+            </div>
+          </div>
+          <div class="check">
+            <input type="checkbox" id="archive" name="archive" value="1">
+            <label for="archive">Archive this position once everyone is paid</label>
+          </div>
+          <div class="formactions">
+            <button class="btn" type="reset">Reset</button>
+            <button class="btn btn--primary" type="submit">Record payment</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer class="sitefoot">
+  <div class="shell">
+    <p class="flush">CardSplit keeps the cost basis, the pipeline, and the payouts in one place.</p>
+    <ul>
+      <li><a href="index.html">Dashboard</a></li>
+      <li><a href="list.html">Positions</a></li>
+      <li><a href="add.html">Add position</a></li>
+    </ul>
+  </div>
+</footer>
+
+<script src="js/jquery-3.7.1.min.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

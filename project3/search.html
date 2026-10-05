@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Search results | CardSplit</title>
+  <meta name="description" content="Results for a search across card positions, comparable sales, and alerts.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;display=swap">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<header class="masthead">
+  <div class="shell masthead__bar">
+    <a class="wordmark" href="index.html">Card<span>Split</span></a>
+    <!-- Simulated search. GET so the phrase arrives in the query string, where
+         search.html can read it with JavaScript. -->
+    <form class="search" action="search.html" method="get" role="search">
+      <label class="visually-hidden" for="site-search">Search positions</label>
+      <input type="search" id="site-search" name="q" placeholder="Search positions, try charizard">
+      <button class="btn" type="submit">Search</button>
+    </form>
+    <a class="btn btn--small" href="index.html">Rochan</a>
+  </div>
+</header>
+
+<nav class="nav" aria-label="Primary">
+  <ul class="shell">
+    <li><a href="index.html">Dashboard</a></li>
+    <li><a href="list.html">Positions</a></li>
+    <li><a href="add.html">Add position</a></li>
+    <li><a href="detail.html">Partners</a></li>
+    <li><a href="detail-sold.html">Settlements</a></li>
+  </ul>
+</nav>
+
+<main id="main" class="page">
+  <div class="shell stack">
+
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <ol>
+        <li><a href="index.html">Dashboard</a></li>
+        <li>Search</li>
+      </ol>
+    </nav>
+
+    <div class="pagehead">
+      <div>
+        <h1>Search results</h1>
+        <!-- The submitted phrase is written here by JavaScript using .text(),
+             so anything the user typed is treated as text and never as markup. -->
+        <p id="search-echo" class="meta">Reading your search...</p>
+      </div>
+    </div>
+
+    <!-- Both of the panels below start hidden. main.js reads the query string
+         and reveals exactly one of them. -->
+    <section class="panel" id="results-panel" aria-labelledby="results-heading" hidden>
+      <div class="panel__head">
+        <h2 id="results-heading">Matches</h2>
+        <span class="badge" id="results-count">0</span>
+      </div>
+      <ul class="queue" id="results-list"></ul>
+    </section>
+
+    <section class="panel" id="empty-panel" aria-labelledby="empty-heading" hidden>
+      <div class="panel__head">
+        <h2 id="empty-heading">Nothing found</h2>
+      </div>
+      <div class="panel__body">
+        <p id="empty-message">No positions, sales, or alerts match that search.</p>
+        <p class="meta">Search covers card names, sets, partners, and grading submissions.
+           Try <a href="search.html?q=charizard">charizard</a> to see how results look.</p>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer class="sitefoot">
+  <div class="shell">
+    <p class="flush">CardSplit keeps the cost basis, the pipeline, and the payouts in one place.</p>
+    <ul>
+      <li><a href="index.html">Dashboard</a></li>
+      <li><a href="list.html">Positions</a></li>
+      <li><a href="add.html">Add position</a></li>
+    </ul>
+  </div>
+</footer>
+
+<script src="js/jquery-3.7.1.min.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

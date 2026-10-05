@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dashboard | CardSplit</title>
+  <meta name="description" content="Overview of every shared card position: capital deployed, profit, pipeline stage, and what needs attention.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700&amp;family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="styles.css">
+  <!-- Image credits: all card artwork in img/ is original work produced by the
+       author for this project. No downloaded or third-party images are used. -->
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<!-- Site header: wordmark, global search, account. Repeated on all five pages. -->
+<header class="masthead">
+  <div class="shell masthead__bar">
+    <a class="wordmark" href="index.html">Card<span>Split</span></a>
+
+    <!-- Simulated search. GET so the phrase arrives in the query string, where
+         search.html can read it with JavaScript. -->
+    <form class="search" action="search.html" method="get" role="search">
+      <label class="visually-hidden" for="site-search">Search positions</label>
+      <input type="search" id="site-search" name="q" placeholder="Search positions, try charizard">
+      <button class="btn" type="submit">Search</button>
+    </form>
+
+    <a class="btn btn--small" href="index.html">Rochan</a>
+  </div>
+</header>
+
+<!-- Primary navigation -->
+<nav class="nav" aria-label="Primary">
+  <ul class="shell">
+    <li><a href="index.html" aria-current="page">Dashboard</a></li>
+    <li><a href="list.html">Positions</a></li>
+    <li><a href="add.html">Add position</a></li>
+    <li><a href="detail.html">Partners</a></li>
+    <li><a href="detail-sold.html">Settlements</a></li>
+  </ul>
+</nav>
+
+<main id="main" class="page">
+  <div class="shell stack">
+
+    <div class="pagehead">
+      <div>
+        <h1>Week of 27 September</h1>
+        <p>Three partners, eighteen open positions, one payout outstanding.</p>
+      </div>
+      <a class="btn btn--primary" href="add.html">Add position</a>
+    </div>
+
+    <!-- Summary figures. auto-fit grid, so these reflow without a media query. -->
+    <section aria-labelledby="totals">
+      <h2 id="totals" class="visually-hidden">Partnership totals</h2>
+      <dl class="figures">
+        <div class="figure">
+          <dt>Capital deployed</dt>
+          <dd>$4,820</dd>
+        </div>
+        <div class="figure">
+          <dt>Unrealised</dt>
+          <dd class="num--gain">+$1,140</dd>
+        </div>
+        <div class="figure">
+          <dt>Realised this year</dt>
+          <dd class="num--gain">+$2,375</dd>
+        </div>
+        <div class="figure">
+          <dt>Open positions</dt>
+          <dd>18</dd>
+        </div>
+      </dl>
+    </section>
+
+    <!-- Pipeline. A genuine sequence, so the numbering encodes the content. -->
+    <section class="panel" aria-labelledby="pipeline">
+      <div class="panel__head">
+        <h2 id="pipeline">Where the money is sitting</h2>
+        <a class="meta" href="list.html">See all positions</a>
+      </div>
+      <div class="panel__body">
+        <ol class="track">
+          <li class="is-done"><span class="step-num">6</span> Raw</li>
+          <li class="is-current"><span class="step-num">4</span> At grader</li>
+          <li><span class="step-num">3</span> Graded</li>
+          <li><span class="step-num">3</span> Listed</li>
+          <li><span class="step-num">2</span> Sold</li>
+        </ol>
+      </div>
+    </section>
+
+    <div class="row-2">
+
+      <!-- Changed from Project 1: every row is now a link to the screen where
+           the problem is actually resolved, per peer feedback on page 1. -->
+      <section class="panel" aria-labelledby="attention">
+        <div class="panel__head">
+          <h2 id="attention">Needs attention</h2>
+          <span class="badge">4</span>
+        </div>
+        <ul class="queue">
+          <li>
+            <a href="detail.html">
+              <span class="queue__label">Charizard VMAX has been at PSA for 41 days</span>
+              <span class="badge badge--flag">Chase it</span>
+            </a>
+          </li>
+          <li>
+            <a href="detail.html">
+              <span class="queue__label">Luffy Leader came back a 9 and is still unlisted</span>
+              <span class="badge badge--flag">List it</span>
+            </a>
+          </li>
+          <li>
+            <a href="list.html">
+              <span class="queue__label">Pikachu VMAX has no comparable sale in 30 days</span>
+              <span class="badge">Reprice</span>
+            </a>
+          </li>
+          <li>
+            <a href="add.html">
+              <span class="queue__label">Zoro SR split was never confirmed by Rida</span>
+              <span class="badge badge--flag">Confirm split</span>
+            </a>
+          </li>
+        </ul>
+      </section>
+
+      <section class="panel" aria-labelledby="activity">
+        <div class="panel__head">
+          <h2 id="activity">Recent activity</h2>
+        </div>
+        <ul class="queue">
+          <li>
+            <a href="detail.html">
+              <span class="queue__label">Haarith added Nami OP01-016 at $42</span>
+              <span class="meta">2 hours ago</span>
+            </a>
+          </li>
+          <li>
+            <a href="detail.html">
+              <span class="queue__label">Umbreon VMAX returned from PSA as a 10</span>
+              <span class="meta">Yesterday</span>
+            </a>
+          </li>
+          <li>
+            <a href="detail-sold.html">
+              <span class="queue__label">Rayquaza VMAX sold for $412 on eBay</span>
+              <span class="meta">2 days ago</span>
+            </a>
+          </li>
+          <li>
+            <a href="detail-sold.html">
+              <span class="queue__label">Haarith was paid his $135.60 share</span>
+              <span class="meta">3 days ago</span>
+            </a>
+          </li>
+        </ul>
+      </section>
+
+    </div>
+
+    <!-- Highest-value open position, using a locally generated card image. -->
+    <!-- Largest open position, surfaced so the dashboard leads with real stakes. -->
+    <section class="panel" aria-labelledby="biggest">
+      <div class="panel__head">
+        <h2 id="biggest">Biggest open position</h2>
+        <a class="meta" href="detail.html">Open record</a>
+      </div>
+      <div class="panel__body">
+        <div class="split">
+          <img class="thumb fill-w" src="img/card-umbreon.jpg"
+               alt="Umbreon VMAX alternate art card, Evolving Skies number 215 of 203, currently listed for sale.">
+          <div>
+            <h3>Umbreon VMAX alternate art</h3>
+            <p>Bought raw at a Richmond show in June, graded PSA 10 in August, listed the same week.
+               Split three ways, so nobody can move it alone.</p>
+            <dl class="record">
+              <div><dt>Cost basis</dt><dd>$540.00</dd></div>
+              <div><dt>Current comp</dt><dd>$690.00</dd></div>
+              <div><dt>Your share</dt><dd>50%</dd></div>
+              <div><dt>Unrealised</dt><dd class="num--gain">+$150.00</dd></div>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer class="sitefoot">
+  <div class="shell">
+    <p class="flush">CardSplit keeps the cost basis, the pipeline, and the payouts in one place.</p>
+    <ul>
+      <li><a href="index.html">Dashboard</a></li>
+      <li><a href="list.html">Positions</a></li>
+      <li><a href="add.html">Add position</a></li>
+    </ul>
+  </div>
+</footer>
+
+<script src="js/jquery-3.7.1.min.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Add a position | CardSplit</title>
+  <meta name="description" content="Log a newly bought card and split its cost between partners.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700&amp;family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="styles.css">
+  <!-- Image credits: all card artwork in img/ is original work produced by the
+       author for this project. No downloaded or third-party images are used. -->
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<header class="masthead">
+  <div class="shell masthead__bar">
+    <a class="wordmark" href="index.html">Card<span>Split</span></a>
+    <!-- Simulated search. GET so the phrase arrives in the query string, where
+         search.html can read it with JavaScript. -->
+    <form class="search" action="search.html" method="get" role="search">
+      <label class="visually-hidden" for="site-search">Search positions</label>
+      <input type="search" id="site-search" name="q" placeholder="Search positions, try charizard">
+      <button class="btn" type="submit">Search</button>
+    </form>
+    <a class="btn btn--small" href="index.html">Rochan</a>
+  </div>
+</header>
+
+<nav class="nav" aria-label="Primary">
+  <ul class="shell">
+    <li><a href="index.html">Dashboard</a></li>
+    <li><a href="list.html">Positions</a></li>
+    <li><a href="add.html" aria-current="page">Add position</a></li>
+    <li><a href="detail.html">Partners</a></li>
+    <li><a href="detail-sold.html">Settlements</a></li>
+  </ul>
+</nav>
+
+<main id="main" class="page">
+  <div class="shell stack">
+
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <ol>
+        <li><a href="index.html">Dashboard</a></li>
+        <li><a href="list.html">Positions</a></li>
+        <li>Add a position</li>
+      </ol>
+    </nav>
+
+    <div class="pagehead">
+      <div>
+        <h1>Add a position</h1>
+        <p>Log what you bought and who paid for what. Fields marked
+           <span class="req" aria-hidden="true">*</span> are required.</p>
+      </div>
+    </div>
+
+    <!-- Changed from Project 1: required fields are now marked, per the peer
+         evaluation note on error prevention for this page. The peer also asked
+         whether data entry could be faster, which the lookup field answers. -->
+    <form action="list.html" method="post">
+
+      <fieldset>
+        <legend>The card</legend>
+
+        <div class="field">
+          <label for="lookup">Find the card</label>
+          <input type="search" id="lookup" name="lookup" placeholder="Start typing a card name or number">
+          <span class="hint">Matching a known card fills in the set, year and number for you.</span>
+        </div>
+
+        <div class="split">
+          <img src="img/card-charizard.jpg"
+               alt="Preview of the matched card: Charizard VMAX from SWSH Darkness Ablaze, number 074 of 189.">
+          <p class="meta">Matched against the set database. Check the number and condition against
+             the card in your hand before saving, since the grader will.</p>
+        </div>
+
+        <div class="fieldrow">
+          <div class="field">
+            <label for="card-name">Card name <span class="req">*</span></label>
+            <input type="text" id="card-name" name="card-name" required value="Charizard VMAX">
+          </div>
+          <div class="field">
+            <label for="card-set">Set <span class="req">*</span></label>
+            <select id="card-set" name="card-set" required>
+              <option value="">Choose a set</option>
+              <option value="darkness-ablaze" selected>SWSH Darkness Ablaze</option>
+              <option value="evolving-skies">Evolving Skies</option>
+              <option value="fusion-strike">Fusion Strike</option>
+              <option value="vivid-voltage">Vivid Voltage</option>
+              <option value="op01">OP-01 Romance Dawn</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="fieldrow">
+          <div class="field">
+            <label for="card-year">Year</label>
+            <input type="number" id="card-year" name="card-year" min="1996" max="2026" value="2020">
+          </div>
+          <div class="field">
+            <label for="card-number">Card number</label>
+            <input type="text" id="card-number" name="card-number" value="074/189">
+          </div>
+          <div class="field">
+            <label for="card-condition">Raw condition <span class="req">*</span></label>
+            <select id="card-condition" name="card-condition" required>
+              <option value="">Choose a condition</option>
+              <option value="nm" selected>Near mint</option>
+              <option value="lp">Lightly played</option>
+              <option value="mp">Moderately played</option>
+              <option value="hp">Heavily played</option>
+            </select>
+          </div>
+        </div>
+      </fieldset>
+
+      <!-- Purchase details. Price and date together set the cost basis. -->
+    <fieldset>
+        <legend>The purchase</legend>
+
+        <div class="fieldrow">
+          <div class="field">
+            <label for="price">Purchase price <span class="req">*</span></label>
+            <input type="number" id="price" name="price" min="0" step="0.01" required value="310.00">
+          </div>
+          <div class="field">
+            <label for="bought-on">Bought on <span class="req">*</span></label>
+            <input type="date" id="bought-on" name="bought-on" required value="2026-07-12">
+          </div>
+          <div class="field">
+            <label for="source">Where from</label>
+            <input type="text" id="source" name="source" value="Richmond card show">
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="notes">Condition notes</label>
+          <textarea id="notes" name="notes" placeholder="Centering, edge wear, anything a grader will catch">Centering looks 60/40 left to right. Back is clean. Worth a 10 attempt.</textarea>
+          <span class="hint">These notes travel with the card and show on the position record.</span>
+        </div>
+      </fieldset>
+
+      <!-- Split rows use identical markup so Project 3 can add and remove them
+           from a template rather than hand-writing each one. -->
+      <fieldset>
+        <legend>Who is paying</legend>
+        <p class="meta">Shares must add up to 100% before the position can be saved.</p>
+
+        <div class="fieldrow">
+          <div class="field">
+            <label for="share-rochan">Rochan</label>
+            <input type="number" class="js-share" id="share-rochan" name="share-rochan" min="0" max="100" value="50">
+          </div>
+          <div class="field">
+            <label for="share-haarith">Haarith</label>
+            <input type="number" class="js-share" id="share-haarith" name="share-haarith" min="0" max="100" value="30">
+          </div>
+          <div class="field">
+            <label for="share-rida">Rida</label>
+            <input type="number" class="js-share" id="share-rida" name="share-rida" min="0" max="100" value="20">
+          </div>
+        </div>
+
+        <!-- Interaction 2 modifies this tally and inserts an error paragraph after it. -->
+        <p class="tally"><span>Total allocated</span> <span class="js-total">100% of $310.00</span></p>
+
+        <div class="check">
+          <input type="checkbox" id="confirm-split" name="confirm-split" value="1">
+          <label for="confirm-split">Ask each partner to confirm their share before the card ships</label>
+        </div>
+      </fieldset>
+
+      <!-- Starting stage, which determines where the position enters the pipeline. -->
+    <fieldset>
+        <legend>What happens next</legend>
+        <div class="fieldrow">
+          <div class="field">
+            <label for="stage">Starting stage <span class="req">*</span></label>
+            <select id="stage" name="stage" required>
+              <option value="">Choose a starting stage</option>
+              <option value="raw" selected>Raw, still in hand</option>
+              <option value="grader">Already sent to a grader</option>
+              <option value="listed">Listed for sale as-is</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="grader">Grader you plan to use</label>
+            <select id="grader" name="grader">
+              <option value="">Undecided</option>
+              <option value="psa" selected>PSA</option>
+              <option value="bgs">BGS</option>
+              <option value="cgc">CGC</option>
+            </select>
+          </div>
+        </div>
+      </fieldset>
+
+      <!-- Cancel is a link because it navigates; Save is a button because it submits. -->
+    <div class="formactions">
+        <a class="btn" href="list.html">Cancel</a>
+        <button class="btn btn--primary" type="submit">Save position</button>
+      </div>
+
+    </form>
+
+  </div>
+</main>
+
+<footer class="sitefoot">
+  <div class="shell">
+    <p class="flush">CardSplit keeps the cost basis, the pipeline, and the payouts in one place.</p>
+    <ul>
+      <li><a href="index.html">Dashboard</a></li>
+      <li><a href="list.html">Positions</a></li>
+      <li><a href="add.html">Add position</a></li>
+    </ul>
+  </div>
+</footer>
+
+<script src="js/jquery-3.7.1.min.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

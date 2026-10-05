@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Positions | CardSplit</title>
+  <meta name="description" content="Every shared card position, filterable by stage, partner, grading company, and date.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700&amp;family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="styles.css">
+  <!-- Image credits: all card artwork in img/ is original work produced by the
+       author for this project. No downloaded or third-party images are used. -->
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<header class="masthead">
+  <div class="shell masthead__bar">
+    <a class="wordmark" href="index.html">Card<span>Split</span></a>
+    <!-- Simulated search. GET so the phrase arrives in the query string, where
+         search.html can read it with JavaScript. -->
+    <form class="search" action="search.html" method="get" role="search">
+      <label class="visually-hidden" for="site-search">Search positions</label>
+      <input type="search" id="site-search" name="q" placeholder="Search positions, try charizard">
+      <button class="btn" type="submit">Search</button>
+    </form>
+    <a class="btn btn--small" href="index.html">Rochan</a>
+  </div>
+</header>
+
+<nav class="nav" aria-label="Primary">
+  <ul class="shell">
+    <li><a href="index.html">Dashboard</a></li>
+    <li><a href="list.html" aria-current="page">Positions</a></li>
+    <li><a href="add.html">Add position</a></li>
+    <li><a href="detail.html">Partners</a></li>
+    <li><a href="detail-sold.html">Settlements</a></li>
+  </ul>
+</nav>
+
+<main id="main" class="page">
+  <div class="shell stack">
+
+    <div class="pagehead">
+      <div>
+        <h1>Positions</h1>
+        <p>18 open, 2 settled this month.</p>
+      </div>
+      <a class="btn btn--primary" href="add.html">Add position</a>
+    </div>
+
+    <!-- Filter form. Changed from Project 1: partner, grader and purchase date
+         are now shown in the rows as well as offered as filters, since the peer
+         evaluation noted you could filter on attributes the table never displayed. -->
+    <!-- Filter form. Every attribute offered here is also shown in the table below. -->
+    <section class="panel" aria-labelledby="filters">
+      <div class="panel__head">
+        <h2 id="filters">Narrow the list</h2>
+      </div>
+      <div class="panel__body">
+        <form action="list.html" method="get">
+          <div class="fieldrow">
+            <div class="field">
+              <label for="f-stage">Stage</label>
+              <select id="f-stage" name="stage">
+                <option value="">Any stage</option>
+                <option value="raw">Raw</option>
+                <option value="grader" selected>At grader</option>
+                <option value="graded">Graded</option>
+                <option value="listed">Listed</option>
+                <option value="sold">Sold</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="f-partner">Partner</label>
+              <select id="f-partner" name="partner">
+                <option value="">Anyone</option>
+                <option value="rochan">Rochan</option>
+                <option value="haarith">Haarith</option>
+                <option value="rida">Rida</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="f-grader">Grading company</label>
+              <select id="f-grader" name="grader">
+                <option value="">Any</option>
+                <option value="psa">PSA</option>
+                <option value="bgs">BGS</option>
+                <option value="cgc">CGC</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="f-since">Bought since</label>
+              <input type="date" id="f-since" name="since" value="2026-06-01">
+            </div>
+          </div>
+
+          <div class="check">
+            <input type="checkbox" id="f-mine" name="mine" value="1">
+            <label for="f-mine">Only positions I have money in</label>
+          </div>
+          <div class="check">
+            <input type="checkbox" id="f-stalled" name="stalled" value="1" checked>
+            <label for="f-stalled">Only positions stalled more than 30 days</label>
+          </div>
+
+          <div class="formactions">
+            <button class="btn" type="reset">Clear</button>
+            <button class="btn btn--primary" type="submit">Apply filters</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- Every row below uses identical markup so Project 3 can template it:
+         same tags, same classes, content is the only difference. -->
+    <section class="panel" aria-labelledby="results">
+      <div class="panel__head">
+        <h2 id="results">8 of 18 positions</h2>
+        <span class="meta">Sorted by days in stage</span>
+      </div>
+      <div class="panel__body panel__body--flush">
+        <div class="table-wrap">
+          <table id="positions-table">
+            <caption>Open positions, longest-stalled first.</caption>
+            <thead>
+              <tr>
+                <th scope="col">Card</th>
+                <th scope="col">Stage</th>
+                <th scope="col" class="col-optional">Partner</th>
+                <th scope="col" class="col-optional">Grader</th>
+                <th scope="col" class="col-optional">Bought</th>
+                <th scope="col" class="num">Cost basis</th>
+                <th scope="col" class="num col-compact">Comp</th>
+                <th scope="col" class="num col-compact">Your share</th>
+                <th scope="col" class="num">Days in stage</th>
+                <th scope="col"><span class="visually-hidden">Actions</span></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <div class="cardcell">
+                    <img class="thumb" src="img/card-charizard.jpg" alt="Charizard VMAX, SWSH Darkness Ablaze 074 of 189.">
+                    <span><strong>Charizard VMAX</strong> <span>SWSH Darkness Ablaze</span></span>
+                  </div>
+                </td>
+                <td><span class="badge js-stage">At grader</span></td>
+                <td class="col-optional">Rochan, Haarith, Rida</td>
+                <td class="col-optional">PSA</td>
+                <td class="col-optional">12 Jul 2026</td>
+                <td class="num">$353.50</td>
+                <td class="num col-compact">$470.00</td>
+                <td class="num col-compact">50%</td>
+                <td class="num js-days">41</td>
+                <td><a class="btn btn--small" href="detail.html">Open</a>
+                  <button class="btn btn--small js-advance" type="button">Next stage</button></td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="cardcell">
+                    <img class="thumb" src="img/card-luffy.jpg" alt="Luffy Leader parallel, OP-01 Romance Dawn OP01-003.">
+                    <span><strong>Luffy Leader parallel</strong> <span>OP-01 Romance Dawn</span></span>
+                  </div>
+                </td>
+                <td><span class="badge js-stage">Graded</span></td>
+                <td class="col-optional">Rochan, Haarith</td>
+                <td class="col-optional">CGC</td>
+                <td class="col-optional">03 Aug 2026</td>
+                <td class="num">$185.00</td>
+                <td class="num col-compact">$260.00</td>
+                <td class="num col-compact">33%</td>
+                <td class="num js-days">12</td>
+                <td><a class="btn btn--small" href="detail.html">Open</a>
+                  <button class="btn btn--small js-advance" type="button">Next stage</button></td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="cardcell">
+                    <img class="thumb" src="img/card-umbreon.jpg" alt="Umbreon VMAX alternate art, Evolving Skies 215 of 203.">
+                    <span><strong>Umbreon VMAX alt art</strong> <span>Evolving Skies</span></span>
+                  </div>
+                </td>
+                <td><span class="badge js-stage">Listed</span></td>
+                <td class="col-optional">Rochan, Rida</td>
+                <td class="col-optional">PSA</td>
+                <td class="col-optional">19 Jun 2026</td>
+                <td class="num">$540.00</td>
+                <td class="num col-compact">$690.00</td>
+                <td class="num col-compact">50%</td>
+                <td class="num js-days">8</td>
+                <td><a class="btn btn--small" href="detail.html">Open</a>
+                  <button class="btn btn--small js-advance" type="button">Next stage</button></td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="cardcell">
+                    <img class="thumb" src="img/card-luffy.jpg" alt="Zoro SR, OP-01 Romance Dawn OP01-025.">
+                    <span><strong>Zoro SR</strong> <span>OP-01 Romance Dawn</span></span>
+                  </div>
+                </td>
+                <td><span class="badge js-stage">Raw</span></td>
+                <td class="col-optional">Rochan, Rida</td>
+                <td class="col-optional">Not submitted</td>
+                <td class="col-optional">14 Sep 2026</td>
+                <td class="num">$95.00</td>
+                <td class="num col-compact">$120.00</td>
+                <td class="num col-compact">25%</td>
+                <td class="num js-days">3</td>
+                <td><a class="btn btn--small" href="detail.html">Open</a>
+                  <button class="btn btn--small js-advance" type="button">Next stage</button></td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="cardcell">
+                    <img class="thumb" src="img/card-charizard.jpg" alt="Pikachu VMAX, Vivid Voltage 044 of 185.">
+                    <span><strong>Pikachu VMAX</strong> <span>Vivid Voltage</span></span>
+                  </div>
+                </td>
+                <td><span class="badge js-stage">Raw</span></td>
+                <td class="col-optional">Rochan</td>
+                <td class="col-optional">Not submitted</td>
+                <td class="col-optional">28 Aug 2026</td>
+                <td class="num">$78.00</td>
+                <td class="num col-compact">$88.00</td>
+                <td class="num col-compact">100%</td>
+                <td class="num js-days">30</td>
+                <td><a class="btn btn--small" href="detail.html">Open</a>
+                  <button class="btn btn--small js-advance" type="button">Next stage</button></td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="cardcell">
+                    <img class="thumb" src="img/card-luffy.jpg" alt="Nami, OP-01 Romance Dawn OP01-016.">
+                    <span><strong>Nami OP01-016</strong> <span>OP-01 Romance Dawn</span></span>
+                  </div>
+                </td>
+                <td><span class="badge js-stage">Raw</span></td>
+                <td class="col-optional">Haarith, Rida</td>
+                <td class="col-optional">Not submitted</td>
+                <td class="col-optional">26 Sep 2026</td>
+                <td class="num">$42.00</td>
+                <td class="num col-compact">$55.00</td>
+                <td class="num col-compact">33%</td>
+                <td class="num js-days">2</td>
+                <td><a class="btn btn--small" href="detail.html">Open</a>
+                  <button class="btn btn--small js-advance" type="button">Next stage</button></td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="cardcell">
+                    <img class="thumb" src="img/card-umbreon.jpg" alt="Mew VMAX alternate art, Fusion Strike 268 of 264.">
+                    <span><strong>Mew VMAX alt art</strong> <span>Fusion Strike</span></span>
+                  </div>
+                </td>
+                <td><span class="badge js-stage">At grader</span></td>
+                <td class="col-optional">Rochan, Haarith</td>
+                <td class="col-optional">BGS</td>
+                <td class="col-optional">09 Sep 2026</td>
+                <td class="num">$225.00</td>
+                <td class="num col-compact">$340.00</td>
+                <td class="num col-compact">50%</td>
+                <td class="num js-days">19</td>
+                <td><a class="btn btn--small" href="detail.html">Open</a>
+                  <button class="btn btn--small js-advance" type="button">Next stage</button></td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="cardcell">
+                    <img class="thumb" src="img/card-charizard.jpg" alt="Rayquaza VMAX alternate art, Evolving Skies 218 of 203.">
+                    <span><strong>Rayquaza VMAX alt art</strong> <span>Evolving Skies</span></span>
+                  </div>
+                </td>
+                <td><span class="badge js-stage">Sold</span></td>
+                <td class="col-optional">Rochan, Haarith, Rida</td>
+                <td class="col-optional">PSA</td>
+                <td class="col-optional">02 May 2026</td>
+                <td class="num">$300.00</td>
+                <td class="num col-compact">$412.00</td>
+                <td class="num col-compact">50%</td>
+                <td class="num js-days">0</td>
+                <td><a class="btn btn--small" href="detail-sold.html">Open</a>
+                  <button class="btn btn--small js-advance" type="button">Next stage</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Interaction 1 writes into this panel. It starts empty and the empty-state
+         line is hidden the first time a stage actually moves. -->
+    <section class="panel" aria-labelledby="stage-log">
+      <div class="panel__head">
+        <h2 id="stage-log">Stage changes this session</h2>
+      </div>
+      <div class="panel__body">
+        <p id="stage-log-empty" class="meta">No stages moved yet. Use Next stage on any row above.</p>
+        <ul id="stage-log-list" class="queue"></ul>
+      </div>
+    </section>
+
+    <!-- Pagination summary. Static for now; driven by the backend in Project 3. -->
+    <p class="meta">Showing 1 to 8 of 18. <a href="list.html">Next 8 positions</a></p>
+
+  </div>
+</main>
+
+<footer class="sitefoot">
+  <div class="shell">
+    <p class="flush">CardSplit keeps the cost basis, the pipeline, and the payouts in one place.</p>
+    <ul>
+      <li><a href="index.html">Dashboard</a></li>
+      <li><a href="list.html">Positions</a></li>
+      <li><a href="add.html">Add position</a></li>
+    </ul>
+  </div>
+</footer>
+
+<script src="js/jquery-3.7.1.min.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
